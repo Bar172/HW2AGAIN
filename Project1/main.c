@@ -187,3 +187,20 @@ WorkerList* deleteWorstWorker(WorkerList* head)
 	return head;
 
 }
+
+//4
+void update_worker(WorkerList* head, float percent)
+{
+	if (head == NULL)//case no workers
+	{
+		printf("the worker list is empty!");
+		exit(1);
+	}
+	WorkerList* tmpP = head;
+	while (tmpP!= NULL)
+	{
+		tmpP->data->salary = ((tmpP->data->salary) + ((tmpP->data->salary) * percent));//update salary
+		tmpP = tmpP->next;
+	}
+
+}
