@@ -8,6 +8,7 @@
 WorkerList* addWorker(WorkerList* head, Worker* w);
 Worker* CreateWorker(yearT);
 void PrintWorker(char type, const Worker* infoW);
+int index(WorkerList* head, long unsigned id);
 
 
 //A
@@ -98,7 +99,7 @@ void PrintWorker(char type, const Worker* infoW)
 	}
 }
 
-//C
+//1
 WorkerList* addWorker(WorkerList* head, Worker* w)
 {
 	if(head == NULL)//if list is empty
@@ -110,7 +111,7 @@ WorkerList* addWorker(WorkerList* head, Worker* w)
 			exit(1);
 		}
 		head = newItem;//points to newitem
-		newItem->data = w;//inser the worker data
+		newItem->data = w;//insert the worker data
 		newItem->next = NULL;//last item points to null
 
 		printf("--------------------- END OF OPTION -----------------------\n\n");
@@ -138,5 +139,32 @@ WorkerList* addWorker(WorkerList* head, Worker* w)
 		printf("--------------------- END OF OPTION -----------------------\n\n");
 		return head;
 	}
+}
+
+//2
+//loop version
+int index(WorkerList* head,long unsigned id)
+{
+	int idx = 1;//place of wanted worker id
+	if (head == NULL)
+	{
+		printf("the worker list is empty!");
+		exit(1);
+	}
+	while (head != NULL)
+	{
+		WorkerList* tmpW;//to run for all list
+		tmpW = head;
+		if (tmpW->data->id == id)
+		{
+			return idx;
+			break;
+		}
+		idx++;
+		tmpW = tmpW->next;
+	}
+	return -1;//if the wanted worker isnt in the list:return -1
+
+
 }
 
