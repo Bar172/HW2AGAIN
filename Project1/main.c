@@ -13,6 +13,7 @@ int index(WorkerList* head, long unsigned id);
 WorkerList* deleteWorstWorker(WorkerList* head);
 //WorkerList* reverse(WorkerList* head);
 void freeWorkers(WorkerList* head);
+void update_worker(WorkerList* head, float percent);
 
 
 
@@ -61,7 +62,9 @@ Worker* CreateWorker(yearT)
 	}
 	trcpy(nw->name,tmp);
 
-	printf("enter the starting Work year: ");
+	printf("enter the starting Work year: "
+	"for year in hebrew press-1,for year with numbers press-0");
+
 	fseek(stdin, 0, SEEK_END);
 	switch (yearT)
 	{
@@ -250,22 +253,82 @@ int menu()
 	do
 	{
 		printf("\nDatabase System Menu:"
-			"\n   1. create a worker"
+			"\n   1. add worker"
 			"\n   2. print worker"
-			"\n   3. add worker"
-			"\n   4. find place of worker according to his ID"
-			"\n   5. delete worst worker"
-			"\n   6. update worker salary"
-			"\n   7. reverse list"
-			"\n   8. free memory"
-			"\n   9. quit");
+			"\n   3. find place of worker according to his ID"
+			"\n   4. delete worst worker"
+			"\n   5. update worker salary"
+			"\n   6. reverse list"
+			"\n   7. free memory"
+			"\n   8. quit");
 
 		printf("\nPlease choose one of the options: ");
 		scanf_s("%d", &option);
 
-		if (option > 9 || option < 1)
+		if (option > 8 || option < 1)
 			printf("\nInvalid number, please try again...\n\n");
-	} while (option > 9 || option < 1);
+	} while (option > 8 || option < 1);
 
 	return option;
+}
+void main()
+{
+	WorkerList* head = NULL;
+	int yearT ;
+	float percentS;
+	unsigned long ChoosenID;
+	while (1)
+	{
+		
+		int option = menu();
+
+		switch (option)
+		{
+		case 1:
+			//add worker to list
+			printf("to enter stating year of work:press-1 to write in hebrew'press 0 to write in numbers");
+			scanf_s("%d", &yearT);
+			head = AddWorker(head,CreateWorker);
+			break;
+
+		case 2:
+			//print details of worker
+			PrintWorker(yearT, head->data);
+			break;
+
+		case 3:
+			//find place of worker according to his ID
+			printf("enter ID of worker to search: \n");
+			scanf_s("%ld", &ChoosenID);
+			printf("the index of worker with wanted ID is:%d", index(head,ChoosenID));
+			break;
+
+		case 4:
+			//delete worst worker
+			head = deleteWorstWorker(head);
+			break;
+
+		case 5:
+			//update worker salary
+			printf("enter percent to up salary workers:\n");
+			scanf("%g", &percentS);
+			update_worker(head, percentS);	
+			break;
+
+		case 6:
+			//reverse list
+			//reverse(head);
+			break;
+		case 7:
+			//free memory
+			freeWorkers(head);
+			break;
+		case 8:
+			freeWorkers(head);
+			printf("\nEnd of program\n");
+			exit(1);
+		}
+	}
+
+
 }
