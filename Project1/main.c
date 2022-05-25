@@ -4,6 +4,12 @@
 #define NUM_Year '0'
 #define Char_Year '1'
 
+//All functions
+WorkerList* addWorker(WorkerList* head, Worker* w);
+Worker* CreateWorker(yearT);
+void PrintWorker(char type, const Worker* infoW);
+
+
 //A
 typedef struct
 {
@@ -57,14 +63,14 @@ Worker* CreateWorker(yearT)
 		do
 		{
 			fseek(stdin, 0, SEEK_END);
-			scanf("%s", &(nw->year.yearc));
+			scanf_s("%s", &(nw->year.yearc));
 			if ((nw->year.yearc > 128) || (nw->year.yearc < 255))puts("Value should be in hebrew only");//משו לא תקין
 		} while ((nw->year.yearc > 128) || (nw->year.yearc < 255));
 		break;
 	case NUM_Year:
 		do
 		{
-			scanf("%ld", &(nw->year.yearN));
+			scanf_s("%ld", &(nw->year.yearN));
 			if ((nw->year.yearN > 9999) || (nw->year.yearN < 1000))puts("Value should be in right numbers!\n");
 
 		} while ((nw->year.yearN > 9999) || (nw->year.yearN < 1000));//הקליטה של השנה לא תקינה צריך לבדוק
@@ -93,4 +99,44 @@ void PrintWorker(char type, const Worker* infoW)
 }
 
 //C
+WorkerList* addWorker(WorkerList* head, Worker* w)
+{
+	if(head == NULL)//if list is empty
+	{
+		WorkerList* newItem = (WorkerList*)malloc(sizeof(WorkerList));
+		if (newItem == NULL)
+		{
+			printf("Error: unavailable memory!!\n\n");
+			exit(1);
+		}
+		head = newItem;//points to newitem
+		newItem->data = w;//inser the worker data
+		newItem->next = NULL;//last item points to null
+
+		printf("--------------------- END OF OPTION -----------------------\n\n");
+		return head;
+	}
+
+	if (head != NULL)//case not emptylist
+	{
+		WorkerList* tmp = (WorkerList*)malloc(sizeof(WorkerList));
+		if (tmp == NULL)
+		{
+			printf("Error: unavailable memory!!\n\n");
+			exit(1);
+		}
+		
+		tmp->next = NULL;
+		tmp->data = w;
+		
+		WorkerList* ptr = head;
+
+		while (ptr->next) // Searching the last 
+			ptr = ptr->next;
+		ptr->next = tmp;  // Define the new as last to become sort list workers
+
+		printf("--------------------- END OF OPTION -----------------------\n\n");
+		return head;
+	}
+}
 
