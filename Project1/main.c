@@ -5,16 +5,6 @@
 #define NUM_Year '0'
 #define Char_Year '1'
 
-//All functions
-WorkerList* addWorker(WorkerList* head, Worker* w);
-Worker* CreateWorker(yearT);
-void PrintWorker(char type, const Worker* infoW);
-int index(WorkerList* head, long unsigned id);
-WorkerList* deleteWorstWorker(WorkerList* head);
-//WorkerList* reverse(WorkerList* head);
-void freeWorkers(WorkerList* head);
-void update_worker(WorkerList* head, float percent);
-
 
 
 //A
@@ -38,47 +28,57 @@ typedef struct WorkerList
 	struct WorkerList* next;
 }WorkerList;
 
+//All functions
+WorkerList* addWorker(WorkerList* head, Worker* w);
+Worker* CreateWorker(yearT);
+void PrintWorker(char type, const Worker* infoW);
+int index(WorkerList* head, long unsigned id);
+WorkerList* deleteWorstWorker(WorkerList* head);
+//WorkerList* reverse(WorkerList* head);
+void freeWorkers(WorkerList* head);
+void update_worker(WorkerList* head, float percent);
+
+
 //B
 Worker* CreateWorker(yearT)
 {
-	char* tmp[30];//temporary for allocation name string
+	char tmp[30]={0};//temporary for allocation name string
 	Worker* nw = (Worker*)malloc(sizeof(Worker));//// Creating new worker information for the new node
 	if (nw==NULL)//cheak allocation
 	{
 		printf("Error: unavailable memory!!");
 		exit(1);
 	}
-	printf("enter worker id: ");
-	scanf_s("%ld\n", &(nw->id));
-	printf("enter worker salary: ");
-	scanf_s("%ld\n", &(nw->salary));
-	printf("enter worker name: ");
-	gets(tmp);
-	nw->name = (char*)calloc(strlen(tmp) + 1, sizeof(char));
+	printf("enter worker id:");
+	scanf_s("%g",&(nw->id));
+	printf("enter worker salary:");
+	scanf_s("%g", &(nw->salary));
+	printf("enter worker name:");
+	scanf_s("%s",tmp);
+	(nw->name) = (char*)malloc((strlen(tmp)+ 1)* sizeof(char));
 	if (nw->name == NULL)
 	{
 		printf("Error: unavailable memory!!\n\n");
 		exit(1);
 	}
-	trcpy(nw->name,tmp);
+	strcpy(nw->name,tmp);
 
-	printf("enter the starting Work year: "
-	"for year in hebrew press-1,for year with numbers press-0");
-
-	fseek(stdin, 0, SEEK_END);
+	
 	switch (yearT)
 	{
 	case Char_Year://לחזור לזה אחככ
 		do
 		{
 			fseek(stdin, 0, SEEK_END);
-			scanf_s("%s", &(nw->year.yearc));
+			printf("enter the starting Work year in hebrew: ");
+			scanf_s("%s", nw->year.yearc);
 			if ((nw->year.yearc > 128) || (nw->year.yearc < 255))puts("Value should be in hebrew only");//משו לא תקין
 		} while ((nw->year.yearc > 128) || (nw->year.yearc < 255));
 		break;
 	case NUM_Year:
 		do
 		{
+			printf("enter the starting Work year in numbers: ");
 			scanf_s("%ld", &(nw->year.yearN));
 			if ((nw->year.yearN > 9999) || (nw->year.yearN < 1000))puts("Value should be in right numbers!\n");
 
@@ -227,9 +227,6 @@ void freeWorkers(WorkerList* head)
 		printf("--------------------- END OF OPTION -----------------------\n\n");
 		return NULL;
 	}
-
-	
-
 		WorkerList* tmp1 = head;
 		WorkerList* tmp2 = NULL;
 		while (tmp1 != NULL)
@@ -286,9 +283,9 @@ void main()
 		{
 		case 1:
 			//add worker to list
-			printf("to enter stating year of work:press-1 to write in hebrew'press 0 to write in numbers");
+			printf("to enter starting year of work:press-1 to write in hebrew'press 0 to write in numbers");
 			scanf_s("%d", &yearT);
-			head = AddWorker(head,CreateWorker);
+			head = addWorker(head,CreateWorker(yearT));
 			break;
 
 		case 2:
