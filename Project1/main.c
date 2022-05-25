@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define NUM_Year '0'
 #define Char_Year '1'
 
@@ -10,6 +11,9 @@ Worker* CreateWorker(yearT);
 void PrintWorker(char type, const Worker* infoW);
 int index(WorkerList* head, long unsigned id);
 WorkerList* deleteWorstWorker(WorkerList* head);
+//WorkerList* reverse(WorkerList* head);
+void freeWorkers(WorkerList* head);
+
 
 
 //A
@@ -203,4 +207,65 @@ void update_worker(WorkerList* head, float percent)
 		tmpP = tmpP->next;
 	}
 
+}
+
+//5
+//WorkerList* reverse(WorkerList* head)
+//{
+
+//}
+
+//6
+void freeWorkers(WorkerList* head)
+{
+	if (head == NULL) // Case list is empty
+	{
+		printf("The list is empty, nothing to free...\n\n");
+		printf("--------------------- END OF OPTION -----------------------\n\n");
+		return NULL;
+	}
+
+	
+
+		WorkerList* tmp1 = head;
+		WorkerList* tmp2 = NULL;
+		while (tmp1 != NULL)
+		{
+			tmp2 = tmp1->next;
+			free(tmp1->data);
+			free(tmp1);
+			tmp1 = tmp2;
+		}
+
+		head = tmp1;
+
+		printf("Free items was successful!\n\n");
+		printf("--------------------- END OF OPTION -----------------------\n\n");
+}
+//D
+int menu()
+{
+	int option = 0;
+
+	do
+	{
+		printf("\nDatabase System Menu:"
+			"\n   1. create a worker"
+			"\n   2. print worker"
+			"\n   3. add worker"
+			"\n   4. find place of worker according to his ID"
+			"\n   5. delete worst worker"
+			"\n   6. update worker salary"
+			"\n   7. reverse list"
+			"\n   8. free memory"
+			"\n   9. quit");
+
+		printf("\nPlease choose one of the options: ");
+		scanf_s("%d", &option);
+
+		if (option > 9 || option < 1)
+			printf("\nInvalid number, please try again...\n\n");
+	} while (option > 9 || option < 1);
+
+	return option;
 }
