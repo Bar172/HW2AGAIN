@@ -9,6 +9,7 @@ WorkerList* addWorker(WorkerList* head, Worker* w);
 Worker* CreateWorker(yearT);
 void PrintWorker(char type, const Worker* infoW);
 int index(WorkerList* head, long unsigned id);
+WorkerList* deleteWorstWorker(WorkerList* head);
 
 
 //A
@@ -168,3 +169,21 @@ int index(WorkerList* head,long unsigned id)
 
 }
 
+//3
+WorkerList* deleteWorstWorker(WorkerList* head)
+{
+	if (head == NULL)//case no workers
+	{
+		printf("the worker list is empty!");
+		exit(1);
+	}
+	//the worker with lowest salary is the firt one because it sort
+	WorkerList* tmpD;
+	tmpD = head;
+	head = tmpD->next;
+	free(tmpD->data);
+	free(tmpD);
+	tmpD = head;
+	return head;
+
+}
