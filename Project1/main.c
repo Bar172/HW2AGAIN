@@ -186,7 +186,7 @@ WorkerList* deleteWorstWorker(WorkerList* head)
 	head = tmpD->next;
 	free(tmpD->data);
 	free(tmpD);
-	tmpD = head;
+	
 	return head;
 
 }
@@ -237,10 +237,8 @@ WorkerList* reverse(WorkerList* head)
 		tmp1 = tmp2;
 		tmp2 = tmp3;
 	}
-
 	// Updating the head
 	head = tmp2;
-
 	printf("Reverse was successful\n\n");
 	printf("--------------------- END OF OPTION -----------------------\n");
 	return head;
@@ -336,9 +334,9 @@ void main()
 
 		case 5:
 			//update worker salary
-			printf("enter percent to up salary workers:\n");
-			scanf("%g", &percentS);
-			update_worker(head, percentS);	
+			printf("enter percent to up salary workers in format->0._:\n");
+			scanf("%f", &percentS);
+			update_worker(head,percentS);	
 			break;
 
 		case 6:
