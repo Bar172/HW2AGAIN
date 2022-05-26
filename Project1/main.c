@@ -5,7 +5,6 @@
 #define NUM_Year '0'
 #define Char_Year '1'
 
-
 //A
 typedef struct
 {
@@ -33,9 +32,10 @@ Worker* CreateWorker(yearT);
 void PrintWorker(char type, const Worker* infoW);
 int index(WorkerList* head, long unsigned id);
 WorkerList* deleteWorstWorker(WorkerList* head);
-//WorkerList* reverse(WorkerList* head);
+WorkerList* reverse(WorkerList* head);
 void freeWorkers(WorkerList* head);
 void update_worker(WorkerList* head, float percent);
+int menu();
 
 
 //B
@@ -156,20 +156,19 @@ int index(WorkerList* head,long unsigned id)
 		printf("the worker list is empty!");
 		exit(1);
 	}
-	while (head != NULL)
+	WorkerList* tmpW;//to run for all list
+	tmpW = head;
+	while (tmpW != NULL)
 	{
-		WorkerList* tmpW;//to run for all list
-		tmpW = head;
 		if (tmpW->data->id == id)
 		{
 			return idx;
 			break;
 		}
-		idx++;
+		idx=idx+1;
 		tmpW = tmpW->next;
 	}
 	return -1;//if the wanted worker isnt in the list:return -1
-
 
 }
 
@@ -210,10 +209,42 @@ void update_worker(WorkerList* head, float percent)
 }
 
 //5
-//WorkerList* reverse(WorkerList* head)
-//{
+WorkerList* reverse(WorkerList* head)
+{
+	// Case empty worker list
+	if (head == NULL)
+	{
+		printf("The worker  list is empty, no need to reverse...\n\n");
+		printf("--------------------- END OF OPTION -----------------------\n\n");
+		return NULL;
+	}
+	WorkerList* tmp1 = head;
+	WorkerList* tmp2 =head->next;
 
-//}
+	head->next = NULL;   
+
+	while (1)
+	{
+		WorkerList* tmp3 = tmp2;
+
+		tmp3 =tmp2->next; // Backing up the next node
+		tmp2->next = tmp1; // Switching direction
+
+		if (tmp3 == NULL)  // Condition to stop
+			break;
+
+		// to the next move
+		tmp1 = tmp2;
+		tmp2 = tmp3;
+	}
+
+	// Updating the head
+	head = tmp2;
+
+	printf("Reverse was successful\n\n");
+	printf("--------------------- END OF OPTION -----------------------\n");
+	return head;
+}
 
 //6
 void freeWorkers(WorkerList* head)
@@ -273,9 +304,7 @@ void main()
 	unsigned long ChoosenID;
 	while (1)
 	{
-		
 		int option = menu();
-
 		switch (option)
 		{
 		case 1:
@@ -290,14 +319,14 @@ void main()
 
 		case 2:
 			//print details of worker
-			PrintWorker(yearT, head->data);
+			PrintWorker(yearT,head->data);
 			break;
 
 		case 3:
 			//find place of worker according to his ID
-			printf("enter ID of worker to search: \n");
-			scanf_s("%ld", &ChoosenID);
-			printf("the index of worker with wanted ID is:%d", index(head,ChoosenID));
+			printf("enter ID of worker to search:\t");
+			scanf_s("%ld",&ChoosenID);
+			printf("the index of worker with wanted ID is:%d",index(head,ChoosenID));
 			break;
 
 		case 4:
@@ -314,7 +343,7 @@ void main()
 
 		case 6:
 			//reverse list
-			//reverse(head);
+			reverse(head);
 			break;
 		case 7:
 			//free memory
