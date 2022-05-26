@@ -6,7 +6,6 @@
 #define Char_Year '1'
 
 
-
 //A
 typedef struct
 {
@@ -16,7 +15,7 @@ typedef struct
 
 	union Year
 	{
-		unsigned long yearN;
+		unsigned int long yearN;
 		char yearc[6];
 	} year;
 
@@ -50,11 +49,12 @@ Worker* CreateWorker(yearT)
 		exit(1);
 	}
 	printf("enter worker id:");
-	scanf_s("%g",&(nw->id));
+	scanf_s("%ld",&(nw->id));
 	printf("enter worker salary:");
-	scanf_s("%g", &(nw->salary));
+	scanf_s("%ld", &(nw->salary));
 	printf("enter worker name:");
-	scanf_s("%s",tmp);
+	fseek(stdin, 0, SEEK_END);
+	scanf("%s.30",tmp);
 	(nw->name) = (char*)malloc((strlen(tmp)+ 1)* sizeof(char));
 	if (nw->name == NULL)
 	{
@@ -63,7 +63,6 @@ Worker* CreateWorker(yearT)
 	}
 	strcpy(nw->name,tmp);
 
-	
 	switch (yearT)
 	{
 	case Char_Year://לחזור לזה אחככ
@@ -71,7 +70,7 @@ Worker* CreateWorker(yearT)
 		{
 			fseek(stdin, 0, SEEK_END);
 			printf("enter the starting Work year in hebrew: ");
-			scanf_s("%s", nw->year.yearc);
+			scanf("%s.6", (nw->year.yearc));
 			if ((nw->year.yearc > 128) || (nw->year.yearc < 255))puts("Value should be in hebrew only");//משו לא תקין
 		} while ((nw->year.yearc > 128) || (nw->year.yearc < 255));
 		break;
@@ -79,7 +78,7 @@ Worker* CreateWorker(yearT)
 		do
 		{
 			printf("enter the starting Work year in numbers: ");
-			scanf_s("%ld", &(nw->year.yearN));
+			scanf("%ld", &(nw->year.yearN));
 			if ((nw->year.yearN > 9999) || (nw->year.yearN < 1000))puts("Value should be in right numbers!\n");
 
 		} while ((nw->year.yearN > 9999) || (nw->year.yearN < 1000));//הקליטה של השנה לא תקינה צריך לבדוק
@@ -88,7 +87,7 @@ Worker* CreateWorker(yearT)
 	return nw;
 }
 
-void PrintWorker(char type, const Worker* infoW)
+void PrintWorker(char type,const Worker* infoW)
 {
 	printf("Id: %ld\n", infoW->id);
 	printf("salary: %ld\n", infoW->salary);
@@ -121,8 +120,6 @@ WorkerList* addWorker(WorkerList* head, Worker* w)
 		head = newItem;//points to newitem
 		newItem->data = w;//insert the worker data
 		newItem->next = NULL;//last item points to null
-
-		printf("--------------------- END OF OPTION -----------------------\n\n");
 		return head;
 	}
 
@@ -181,7 +178,7 @@ WorkerList* deleteWorstWorker(WorkerList* head)
 {
 	if (head == NULL)//case no workers
 	{
-		printf("the worker list is empty!");
+		printf("the worker list is empty!no need to delete!");
 		exit(1);
 	}
 	//the worker with lowest salary is the firt one because it sort
@@ -200,7 +197,7 @@ void update_worker(WorkerList* head, float percent)
 {
 	if (head == NULL)//case no workers
 	{
-		printf("the worker list is empty!");
+		printf("the worker list is empty!no epdate posible!");
 		exit(1);
 	}
 	WorkerList* tmpP = head;
@@ -271,7 +268,7 @@ int menu()
 void main()
 {
 	WorkerList* head = NULL;
-	int yearT ;
+	char yearT ;
 	float percentS;
 	unsigned long ChoosenID;
 	while (1)
@@ -284,8 +281,11 @@ void main()
 		case 1:
 			//add worker to list
 			printf("to enter starting year of work:press-1 to write in hebrew'press 0 to write in numbers");
-			scanf_s("%d", &yearT);
+			fseek(stdin, 0, SEEK_END);
+			scanf_s("%c", &yearT);
 			head = addWorker(head,CreateWorker(yearT));
+			printf("worker was added!!\n");
+			printf("--------------------- END OF OPTION -----------------------\n\n");
 			break;
 
 		case 2:
@@ -322,7 +322,7 @@ void main()
 			break;
 		case 8:
 			freeWorkers(head);
-			printf("\nEnd of program\n");
+			printf("\nEnd of program!!\n");
 			exit(1);
 		}
 	}
