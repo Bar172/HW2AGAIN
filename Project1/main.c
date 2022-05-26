@@ -106,7 +106,7 @@ void PrintWorker(char type,const Worker* infoW)
 	}
 }
 
-//1
+//â.1
 WorkerList* addWorker(WorkerList* head, Worker* w)
 {
 	if(head == NULL)//if list is empty
@@ -146,7 +146,7 @@ WorkerList* addWorker(WorkerList* head, Worker* w)
 	}
 }
 
-//2
+//â.2
 //loop version
 int index(WorkerList* head,long unsigned id)
 {
@@ -172,7 +172,7 @@ int index(WorkerList* head,long unsigned id)
 
 }
 
-//3
+//â.3
 WorkerList* deleteWorstWorker(WorkerList* head)
 {
 	if (head == NULL)//case no workers
@@ -191,7 +191,7 @@ WorkerList* deleteWorstWorker(WorkerList* head)
 
 }
 
-//4
+//â.4
 void update_worker(WorkerList* head, float percent)
 {
 	if (head == NULL)//case no workers
